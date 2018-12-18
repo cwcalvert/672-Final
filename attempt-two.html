@@ -218,11 +218,8 @@
 
     // var attributeValue = "Colorado Solar_size_kw"
 
-    var commonStyles = {
-      diameter: '10px',
-      stroke: 1,
-      fillOpacity: 1
-    }
+
+
     var latlng = [layer.feature.properties["Zip to lat long_LAT"],layer.feature.properties["Zip to lat long_LNG"]]
 
     var solarLayer = L.geoJson(solar, {
@@ -232,18 +229,34 @@
       style: function(feature) {
         return {
           fillColor: '#1d66e7',
-          radius: 5
+          color: '#',
+          radius: getRadius(feature.properties["size_kw"])
         }
       },
       onEachFeature: function(feature, layer) {
         layer.on('mouseover', function() {
           var popup = "<b>" + feature.properties["size_kw"] + "</b>" +
           "<b>" + feature.properties["city"] + "</b>" +
-          "<b>" + feature.properties["install_type"] + "</b>" 
+          "<b>" + feature.properties["install_type"] + "</b>"
           layer.bindTooltip(popup);
+          layer.bindPopup(popup);
+        layer.on('mouseover', function() {
+  					layer.setStyle({
+  						fillColor: 'red'
+  					});
+  				});
+  				layer.on('mouseout', function() {
+  					layer.setStyle({
+  						fillColor: '#f4e242'
+  					})
         })
       }
     }).addTo(map);
+
+    function getRadius(area) {
+			var radius = Math.sqrt(area / Math.PI);
+			return radius * .7;
+		};
 
     // Layers
 //     $.getJSON("data/co_solar_coords.json", function(data) {
