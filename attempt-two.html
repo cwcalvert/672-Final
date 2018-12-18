@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 
@@ -13,18 +12,18 @@
 	<link href="https://fonts.googleapis.com/css?family=Lato:300,300i,400,900i" rel="stylesheet">
 
 	<style>
-		/*
-			UKy Colors:
+
+			/* UKy Colors:
             #c7c9c8 light gray
             #63666a dark gray
             #15397f dark blue
             #009bda light blue
-            #0033a0 official blue
-        */
+            #0033a0 official blue */
+
 		body {
 			margin: 0;
 			padding: 0;
-			background: #e3e3e6;
+			background: #fefee1;
 			font-family: 'Lato', sans-serif;
 			font-weight: 300;
 			color: #3d3d3d;
@@ -152,16 +151,17 @@
 <body>
 
 	<header>
-		<h1>Energy Production</h1>
+		<h1>Solar Energy in Colorado</h1>
 	</header>
 	<section>
 		<div class="row">
 			<div id="map"></div>
 
 			<div class="first-column">
-				<h2>Energy Production in the US by County</h2>
+				<h2>Solar capacity in Colorado by County</h2>
 				<p>
-					"I make maps like other cartographers."
+					Solar in Colorado is growing quickly.
+          Data from <a href="https://openpv.nrel.gov/search"></a>
 					(<a href="https://en.wikipedia.org/wiki/List_of_cartographers">Wikipedia list of cartographers.</a>)
 				</p>
 
@@ -196,8 +196,8 @@
 	<script>
 		// map options
 		var options = {
-			center: [38, -95],
-			zoom: 4
+			center: [39, -106],
+			zoom: 6
 		}
 
 		// create a Leaflet map in our division container with id of 'map'
@@ -218,142 +218,119 @@
 		// request some basemap tiles and add to the map
 		var tiles = L.tileLayer(basemap_source, basemap_options).addTo(map);
 
-			var energyLayer = $.getJSON("data/counties-energy-geo.json", function(data) {
+    // Layers
+    $.getJSON("data/co_solar.json", function(data) {
 
-				var dataLayer = L.geoJson(data, {
-					style: function(feature) {
-						return {
-							color: '#222',
-							weight: 1,
-							fillOpacity: 1
-						};
-					},
-					onEachFeature: function(feature, layer) {
-						layer.on('mouseover', function() {
-							var popup = "<p><b> County Name: </b>" + layer.feature.properties.county + "</p>" +
-													"<p><b> Energy production: </b>$" + layer.feature.properties.value + "</p>"
-							layer.bindTooltip(popup);
-						});
-			}}).addTo(map);
-			});
+      var dataLayer = L.geoJson(data, {
+        style: function(feature) {
+          return {
+            color: '#222',
+            weight: 1,
+            fillOpacity: 1,
+            fillColor: '#1f78b4'
+          };
+        }
+      }).addTo(map);
 
-			function drawMap(dataLayer) {
+      // call to new function here gets the data out of the
+      // callback function
+      drawMap(dataLayer);
+    });
 
-	      var breaks = getClassBreaks(dataLayer);
-	      dataLayer.eachLayer(function(layer) {
+    function drawMap(dataLayer) {
 
-	   var props = features.properties;
+      var breaks = getClassBreaks(dataLayer);
+      dataLayer.eachLayer(function(layer) {
 
-	   layer.setStyle({
-	     fillColor: getColor(props.value, breaks)
-	   });
-	 })
-	 console.log(breaks);
-	  drawLegend(breaks)
- };
+   // var props = layer.features.properties;
 
- function getClassBreaks(dataLayer) {
-
-   // create empty Array for storing values
-   var values = [];
-
-   // loop through all the counties
-   dataLayer.eachLayer(function(layer) {
-     var props = layer.feature.properties;
-     var quant = props.value;
-     // We're not doing any math on these numbers encoded as string values in the geojson
-     // In the lesson map, the divison cast the values to a number
-     // Here we need to explicitly convert the values
-     values.push(quant);
+   layer.setStyle({
+     fillColor: getColor(layer.features.properties["Colorado Solar_size_kw"], breaks)
    });
-
-   // determine similar clusters
-   var clusters = ss.ckmeans(values, 5);
-
-   // create an array of the lowest value within each cluster
-   var breaks = clusters.map(function(cluster) {
-     return [cluster[0], cluster.pop()];
-   });
-
-   return breaks; // return Array of class breaks
-  // end getClassBreaks function
- }
-
- function getColor(d, breaks) {
-
-   if (d <= breaks[0][1]) {
-     return '#f7f7f7';
-   } else if (d <= breaks[1][1]) {
-     return '#edf8fb';
-   } else if (d <= breaks[2][1]) {
-     return '#66c2a4';
-   } else if (d <= breaks[3][1]) {
-     return '#2ca25f';
-   } else if (d <= breaks[4][1]) {
-     return '#006d2c';
-   } else if (d == null) {
-     return '#ffffff';
-   }
- } // end getColor
-
- function drawLegend(breaks){
-
-     // create a new Leaflet control object, and position it top left
-     var legend = L.control({position: 'topright'});
-
-     // when the legend is added to the map
-     legend.onAdd = function () {
-
-         // create a new HTML <div> element and give it a class name of "legend"
-         var div = L.DomUtil.create('div', 'legend');
-
-         // first append an <h3> tag to the div holding the current attribute
-         // and norm values (i.e., the mapped phenomena)
-         div.innerHTML = "<h3>" + attributeValue + "</h3>";
-
-         // for each of our breaks
-         for (var i = 0; i < breaks.length; i++) {
-             // determine the color associated with each break value,
-             // including the lower range value
-             var color = getColor(breaks[i][0], breaks);
-
-             // concatenate a <span> tag styled with the color and the range values
-             // of that class and include a label with the low and a high ends of that class range
-             div.innerHTML +=
-                 '<span style="background:' + color + '"></span> ' +
-                 '<label>'+(breaks[i][0]).toLocaleString() + ' &mdash; ' +
-                 (breaks[i][1]).toLocaleString() + '</label>';
-         }
-
-         // return the populated div to be added to the map
-         return div;
-     };
-
-     // add the legend to the map
-     legend.addTo(map);
- }
-
- $.when(energyLayer).done(function () {
-
- $.getJSON("data/us_states_20m.geojson", function(data) {
-
-   var stateLayer = L.geoJson(data, {
-     style: function(feature) {
-       return {
-         // Let's experiment with these colors shortly
-         // color: '#222222', // Gray
-         color: '#444', // White
-         // Make line weight larger than the county outline
-         weight: 2,
-         fillOpacity: 0,
-         // This property allows us to interact with layers beneath
-         interactive: false
-       };
-     }
-   });
-   stateLayer.addTo(map);
  });
- })
+
+ drawLegend(breaks)
+    }
+
+      function getClassBreaks(dataLayer) {
+
+        // create empty Array for storing values
+        var values = [];
+
+        // loop through all the counties
+        dataLayer.eachLayer(function(layer) {
+          var props = layer.feature.properties;
+          var value = props
+          values.push(value);
+        });
+
+        // determine similar clusters
+        var clusters = ss.ckmeans(values, 5);
+
+        // create an array of the lowest value within each cluster
+        var breaks = clusters.map(function(cluster) {
+          return [cluster[0], cluster.pop()];
+        });
+
+        return breaks; // return Array of class breaks
+       // end getClassBreaks function
+}
+
+      function getColor(d, breaks) {
+
+        if (d <= breaks[0][1]) {
+          return '#ffffd4';
+        } else if (d <= breaks[1][1]) {
+          return '#fed98e';
+        } else if (d <= breaks[2][1]) {
+          return '#fe9929';
+        } else if (d <= breaks[3][1]) {
+          return '##d95f0e'
+        } else if (d <= breaks[4][1]) {
+          return '#993404'
+        }
+      } // end getColor
+
+      function drawLegend(breaks) {
+
+        // create a new Leaflet control object, and position it top left
+        var legend = L.control({
+          position: 'topleft'
+        });
+
+        // when the legend is added to the map
+        legend.onAdd = function() {
+
+          // create a new HTML <div> element and give it a class name of "legend"
+          var div = L.DomUtil.create('div', 'legend');
+
+          // first append an <h3> tag to the div holding the current attribute
+          // and norm values (i.e., the mapped phenomena)
+          div.innerHTML = "<h3>" + attributeValue + " per " + normValue + "</h3>";
+
+          // for each of our breaks
+          for (var i = 0; i < breaks.length; i++) {
+            // determine the color associated with each break value,
+            // including the lower range value
+            var color = getColor(breaks[i][0], breaks);
+
+            // concatenate a <span> tag styled with the color and the range values
+            // of that class and include a label with the low and a high ends of that class range
+            div.innerHTML +=
+              '<span style="background:' + color + '"></span> ' +
+              '<label>' + (breaks[i][0] * 100).toLocaleString() + ' &mdash; ' +
+              (breaks[i][1] * 100).toLocaleString() + '</label>';
+          }
+
+          // return the populated div to be added to the map
+          return div;
+        };
+
+        // add the legend to the map
+        legend.addTo(map);
+      };
+
+
 
 
 	</script>
