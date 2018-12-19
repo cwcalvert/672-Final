@@ -218,9 +218,9 @@
 
     // var attributeValue = "Colorado Solar_size_kw"
 
+    var props = feature.properties
 
-
-    var latlng = [layer.feature.properties["Zip to lat long_LAT"],layer.feature.properties["Zip to lat long_LNG"]]
+    L.latlng(props["Zip to lat long_LAT"], props["Zip to lat long_LNG"])
 
     var solarLayer = L.geoJson(solar, {
       pointToLayer: function(feature, latlng) {
@@ -251,7 +251,9 @@
   					})
         })
       }
-    }).addTo(map);
+    ).addTo(map);
+  }
+})
 
     function getRadius(area) {
 			var radius = Math.sqrt(area / Math.PI);
