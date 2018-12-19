@@ -191,7 +191,6 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.4/leaflet.js"></script>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"></script>
-  <script src="data/co_solar_final.js"></script>
 	<script>
 		// map options
 		var options = {
@@ -220,18 +219,21 @@
     //
     // var props = feature.properties
     //
-    console.log(solar.features);
+    // console.log(solar.features);
 
     // L.latlng(solar.feature.properties["LAT"], solar.feature.properties["LNG"]);
 
-    var solarLayer = L.geoJson(solar, {
+    $.getJSON("data/co_solar_final.json", function(data) {
+
+     L.geoJson(solar, {
       pointToLayer: function(feature, latlng) {
+        console.log(solar.feature.properties);
         return L.circleMarker(latlng, commonStyles);
       },
       style: function(feature) {
         return {
-          fillColor: '#1d66e7',
-          color: '#',
+          fillColor: '#e7ac1d',
+          color: '#eee92b',
           radius: getRadius(feature.properties["size_kw"])
         }
       },
@@ -255,6 +257,7 @@
       }
     ).addTo(map);
   }
+})
 })
 
     function getRadius(area) {
@@ -373,9 +376,6 @@
 //         // add the legend to the map
 //         legend.addTo(map);
 //       };
-
-
-
 
 	</script>
 </body>
