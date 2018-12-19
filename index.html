@@ -166,17 +166,22 @@
       <div class="first-column">
         <h2>Solar capacity in Colorado by County</h2>
         <p>
-          Solar in Colorado is growing quickly. This map shows installations of solar points in the state. Each circle represents a solar installation. The radius is determined by the capacity of the solar unit in watts. Larger circles represent
-          large solar capacities. Clicking on each marker will bring up information about the unit including zipcode and cost per watt to install.
-            <p> Most units are located just east of the Rocky mountains, which is a strategic location because of how much sun the area gets and its geographic proximity to Denver, the largst city with the most electricity demand in the state.
-          <br> <br>Data from <a href="https://openpv.nrel.gov/search">The Open PV Project</a>
-        </p>
+          Solar in Colorado is growing quickly. This map shows installations of solar points in the state. Each circle
+          represents a solar installation. The radius is determined by the capacity of the solar unit in watts. Larger
+          circles represent
+          large solar capacities. Clicking on each marker will bring up information about the unit including zipcode
+          and cost per watt to install.
+          <p> Most units are located just east of the Rocky mountains, which is a strategic location because of how
+            much sun the area gets and its geographic proximity to Denver, the largst city with the most electricity
+            demand in the state.
+            <br> <br>Data from <a href="https://openpv.nrel.gov/search">The Open PV Project</a>
+          </p>
 
-        <p><b>Social links</b></p>
-        <ul>
-          <li>See my projects on GitHub: <a href="https://github.com/cwcalvert">CWCalvert</a></li>
-          <li>Visit my <a href='www.craigcphotography.com'>website</a>.</li>
-        </ul>
+          <p><b>Social links</b></p>
+          <ul>
+            <li>See my projects on GitHub: <a href="https://github.com/cwcalvert">CWCalvert</a></li>
+            <li>Visit my <a href='www.craigcphotography.com'>website</a>.</li>
+          </ul>
 
 
       </div>
@@ -224,7 +229,7 @@
     // request some basemap tiles and add to the map
     var tiles = L.tileLayer(basemap_source, basemap_options).addTo(map);
 
-    solar.features.sort(function(a, b) {
+    solar.features.sort(function (a, b) {
       return b.properties.size_kw - a.properties.size_kw;
     });
 
@@ -261,13 +266,13 @@
         if (solar.features[i].properties["cost_per_watt"] == null) {
           var cost_per_watt = "Unit cost per watt is N/A"
         } else {
-          var cost_per_watt = "Unit cost per watt was " + solar.features[i].properties["cost_per_watt"] + " ($/watt)" 
+          var cost_per_watt = "Unit cost per watt was " + solar.features[i].properties["cost_per_watt"] + " ($/watt)"
         }
-  
+
         var popup = "<b> Solar Unit capacity: </b>" + solar.features[i].properties.size_kw.toLocaleString() + " kw<br>" +
           "<b>Zipcode: </b>" + solar.features[i].properties.zipcode + "<br>" + cost_per_watt
-           // build the popup
-        
+        // build the popup
+
         marker.bindPopup(popup);
 
 
@@ -283,19 +288,19 @@
     // group of layers
     solar_sites_layer.addTo(map)
 
-    solar_sites_layer.eachLayer(function(layer) {
+    solar_sites_layer.eachLayer(function (layer) {
 
       if (!L.Browser.mobile) {
 
-      layer.on('mouseover', function() {
-        layer.setStyle(hover_style)
-      });
+        layer.on('mouseover', function () {
+          layer.setStyle(hover_style)
+        });
 
-      layer.on('mouseout', function() {
-        console.log(initial_style)
-        layer.setStyle(initial_style)
-      });
-    }
+        layer.on('mouseout', function () {
+          console.log(initial_style)
+          layer.setStyle(initial_style)
+        });
+      }
     });
 
     function getRadius(area) {
@@ -303,12 +308,12 @@
       return radius * .5;
     };
 
-    $.when(solar_sites_layer).done(function() {
+    $.when(solar_sites_layer).done(function () {
 
-      var stateLayer = $.getJSON("data/co_state.geojson", function(data) {
+      var stateLayer = $.getJSON("data/co_state.geojson", function (data) {
 
         L.geoJson(data, {
-          style: function(feature) {
+          style: function (feature) {
             return {
               // Let's experiment with these colors shortly
               // color: '#222222', // Gray
