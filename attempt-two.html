@@ -2,440 +2,315 @@
 <html>
 
 <head>
-	<meta charset=utf-8 />
-	<title></title>
-	<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-	<link rel='icon' href='https://newmapsplus.github.io/favicon.ico' type='image/x-icon' />
+  <meta charset=utf-8 />
+  <title></title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <link rel='icon' href='https://newmapsplus.github.io/favicon.ico' type='image/x-icon' />
 
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.css" />
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.4/leaflet.css">
-	<link href="https://fonts.googleapis.com/css?family=Lato:300,300i,400,900i" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.4/leaflet.css">
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,300i,400,900i" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Abril+Fatface|Poppins:300" rel="stylesheet">
 
-	<style>
-		/* UKy Colors:
+  <style>
+    /* UKy Colors:
             #c7c9c8 light gray
             #63666a dark gray
             #15397f dark blue
             #009bda light blue
             #0033a0 official blue */
 
-		body {
-			margin: 0;
-			padding: 0;
-			background: #fefee1;
-			font-family: 'Lato', sans-serif;
-			font-weight: 300;
-			color: #3d3d3d;
-			font-size: 100%;
-			/* 16px is default browser size */
+    body {
+      margin: 0;
+      padding: 0;
+      background: #fefee1;
+      Font-Family: 'Poppins', Sans-Serif;
+      font-weight: 300;
+      color: #3d3d3d;
+      font-size: 100%;
+      /* 16px is default browser size */
 
-		}
+    }
 
-		header,
-		section,
-		footer {
-			width: 80%;
-			margin: 10px auto;
-		}
+    header,
+    section,
+    footer {
+      width: 80%;
+      margin: 10px auto;
+    }
 
-		h1 {
-			font-weight: 900;
-			font-size: 2.8em;
-			font-style: italic;
-			/* The em unit. 3x the current size */
-			letter-spacing: .02em;
-			margin: 5px 0;
-			/* text-transform: uppercase; */
-		}
+    h1 {
+      font-weight: 900;
+      font-size: 2.8em;
+      font-style: italic;
+      Font-Family: 'Abril Fatface', Cursive;
+      /* The em unit. 3x the current size */
+      letter-spacing: .02em;
+      margin: 5px 0;
+      /* text-transform: uppercase; */
+    }
 
-		h2 {
-			font-weight: 300;
-			color: #63666a;
-			font-size: 2.2em;
-			letter-spacing: .06em;
-			font-style: italic;
-			margin: 5px 0;
-		}
+    h2 {
+      font-weight: 300;
+      color: #63666a;
+      font-size: 2.2em;
+      letter-spacing: .06em;
+      font-style: italic;
+      margin: 5px 0;
+    }
 
-		h3 {
-			font-weight: 300i;
-			font-size: 1.5em;
-			margin-bottom: 5px;
-		}
+    h3 {
+      font-weight: 300i;
+      font-size: 1.5em;
+      margin-bottom: 5px;
+    }
 
-		p {
-			font-size: 1.3em;
-			line-height: 1.8em;
-			margin-bottom: 5px;
-		}
+    p {
+      font-size: 1.3em;
+      line-height: 1.8em;
+      margin-bottom: 5px;
+    }
 
-		a {
-			color: #004A8B;
-			font-weight: 400;
-			text-decoration: none;
-		}
+    a {
+      color: #f66009;
+      font-weight: 400;
+      text-decoration: none;
+    }
 
-		a:hover {
-			text-decoration: underline;
-		}
+    a:hover {
+      text-decoration: underline;
+      color: #f6ca091
+    }
 
-		ul {
-			padding: 0px 20px 4px 20px;
-			font-size: 1.1em;
-			line-height: 1.2em;
-			color: #63666a;
-		}
+    ul {
+      padding: 0px 20px 4px 20px;
+      font-size: 1.1em;
+      line-height: 1.2em;
+      color: #63666a;
+    }
 
-		li {
-			margin: 10px 0
-		}
+    li {
+      margin: 10px 0
+    }
 
-		hr {
-			margin: 20px 0;
-			border: 0;
-			height: 1px;
-			background: #63666a;
+    hr {
+      margin: 20px 0;
+      border: 0;
+      height: 1px;
+      background: #63666a;
 
-		}
+    }
 
-		.linkbox {
-			margin: 3px 0 20px 0;
-			display: block;
-			font-size: 0.9em;
-			font-weight: 300;
-			line-height: 1.3em;
-		}
+    .linkbox {
+      margin: 3px 0 20px 0;
+      display: block;
+      font-size: 0.9em;
+      font-weight: 300;
+      line-height: 1.3em;
+    }
 
-		#map {
-			width: 100%;
-			height: 450px;
-			margin: 20px auto;
+    #map {
+      width: 100%;
+      height: 450px;
+      margin: 20px auto;
 
-		}
+    }
 
-		.max-image-width {
-			width: 100%;
-		}
+    .max-image-width {
+      width: 100%;
+    }
 
-		/* Use float property to make two-column layout */
-		.first-column {
-			float: left;
-			width: 49%;
-			padding-right: 2%;
-		}
+    /* Use float property to make two-column layout */
+    .first-column {
+      float: left;
+      width: 80%;
+      padding-right: 2%;
+    }
 
-		.column {
-			float: left;
-			width: 49%;
-		}
+    .column {
+      float: left;
+      width: 49%;
+    }
 
-		/* Clear floats after the columns */
-		.row::after {
-			content: "";
-			display: block;
-			clear: both;
-		}
+    /* Clear floats after the columns */
+    .row::after {
+      content: "";
+      display: block;
+      clear: both;
+    }
 
-		/* When browser is 900px wide or less */
-		@media screen and (max-width: 900px) {
+    /* When browser is 900px wide or less */
+    @media screen and (max-width: 900px) {
 
-			.first-column,
-			.second-column {
-				width: 100%;
-			}
-		}
-	</style>
+      .first-column,
+      .second-column {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-	<header>
-		<h1>Solar Energy in Colorado</h1>
-	</header>
-	<section>
-		<div class="row">
-			<div id="map"></div>
+  <header>
+    <h1>Solar Energy in Colorado</h1>
+  </header>
+  <section>
+    <div class="row">
+      <div id="map"></div>
 
-			<div class="first-column">
-				<h2>Solar capacity in Colorado by County</h2>
-				<p>
-					Solar in Colorado is growing quickly.
-					<br> Data from <a href="https://openpv.nrel.gov/search">The Open PV Project</a>
-				</p>
+      <div class="first-column">
+        <h2>Solar capacity in Colorado by County</h2>
+        <p>
+          Solar in Colorado is growing quickly. This map shows installations of solar points in the state. Each circle represents a solar installation. The radius is determined by the capacity of the solar unit in watts. Larger circles represent
+          large solar capacities. Clicking on each marker will bring up information about the unit including zipcode and cost per watt to install.
+            <p> Most units are located just east of the Rocky mountains, which is a strategic location because of how much sun the area gets and its geographic proximity to Denver, the largst city with the most electricity demand in the state. 
+          <br> <br>Data from <a href="https://openpv.nrel.gov/search">The Open PV Project</a>
+        </p>
 
-				<p><b>Social links</b></p>
-				<ul>
-					<li>See my projects on GitHub: <a href="https://github.com/cwcalvert">CWCalvert</a></li>
-					<li>Visit my <a href='www.craigcphotography.com'>website</a>.</li>
-				</ul>
-
-
-			</div>
-
-		</div>
-	</section>
-	<footer>
-		<hr>
-
-		<a href="https://newmapsplus.github.io">
-			<img src="https://newmapsplus.github.io/assets/graphics/logo-2018-nmp-75px-h-gray.png" alt="University of Kentucky Geography">
-		</a>
-
-		<a href="https://uky-gis.github.io">
-			<img src="https://newmapsplus.github.io/assets/graphics/logo-2018-geography-75px-h.png" alt="University of Kentucky Geography">
-		</a>
-
-	</footer>
-
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.4/leaflet.js"></script>
-	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-	<script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"></script>
-	<script src="data/co_solar_final.js"></script>
-	<script>
-		// map options
-		var options = {
-			center: [39, -106],
-			zoom: 6
-		}
-
-		// create a Leaflet map in our division container with id of 'map'
-		var map = L.map('map', options);
-
-		// Leaflet providers base map URL
-		var basemap_source =
-			'https://cartodb-basemaps-{s}.global.ssl.fastly.net/rastertiles/dark_all/{z}/{x}/{y}.png'
-
-		// Leaflet providers attributes
-		var basemap_options = {
-			attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
-			subdomains: 'abcd',
-			maxZoom: 19
-		};
-
-		// request some basemap tiles and add to the map
-		var tiles = L.tileLayer(basemap_source, basemap_options).addTo(map);
-
-		// declare a variable to accept layer group
-		var solar_sites_layer
-
-		// empty array to populate solar sites, aka layers
-		var solar_sites = []
-
-		var initial_style = {
-			fillColor: 'yellow',
-			color: 'yellow'
-			// other initial path options
-		}
-
-		var hover_style = {
-			color: 'red'
-			// other hover path options
-		}
-
-		for (var i = 0; i < solar.features.length; i++) {
-
-			var lat = solar.features[i].properties.LAT
-			var lng = solar.features[i].properties.LNG
-
-			if (lat != null && lng != null) {
-
-				var latlng = L.latLng(lat, lng)
-				var radius = getRadius(solar.features[i].properties.size_kw)
-				var marker = L.circleMarker(latlng, {
-					radius: radius
-				})
-
-				var popup = "I'm Solor!" // build the popup
-				marker.bindPopup(popup) 
-
-				marker.setStyle(initial_style);
-
-				solar_sites.push(marker)
-
-			}
-			// create the final group of layers
-			solar_sites_layer = L.layerGroup(solar_sites)
-		}
-
-		// group of layers
-		solar_sites_layer.addTo(map)
-
-		solar_sites_layer.eachLayer(function (layer) {
-
-			layer.on('mouseover', function () {
-				layer.setStyle(hover_style)
-			});
-
-			layer.on('mouseout', function () {
-				console.log(initial_style)
-				layer.setStyle(initial_style)
-			});
-		});
+        <p><b>Social links</b></p>
+        <ul>
+          <li>See my projects on GitHub: <a href="https://github.com/cwcalvert">CWCalvert</a></li>
+          <li>Visit my <a href='www.craigcphotography.com'>website</a>.</li>
+        </ul>
 
 
+      </div>
+
+    </div>
+  </section>
+  <footer>
+    <hr>
+
+    <a href="https://newmapsplus.github.io">
+      <img src="https://newmapsplus.github.io/assets/graphics/logo-2018-nmp-75px-h-gray.png" alt="University of Kentucky Geography">
+    </a>
+
+    <a href="https://uky-gis.github.io">
+      <img src="https://newmapsplus.github.io/assets/graphics/logo-2018-geography-75px-h.png" alt="University of Kentucky Geography">
+    </a>
+
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.4/leaflet.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"></script>
+  <script src="data/co_solar_final.js"></script>
+  <script>
+    // map options
+    var options = {
+      center: [39, -106],
+      zoom: 6
+    }
+
+    // create a Leaflet map in our division container with id of 'map'
+    var map = L.map('map', options);
+
+    // Leaflet providers base map URL
+    var basemap_source =
+      'https://cartodb-basemaps-{s}.global.ssl.fastly.net/rastertiles/dark_all/{z}/{x}/{y}.png'
+
+    // Leaflet providers attributes
+    var basemap_options = {
+      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+      subdomains: 'abcd',
+      maxZoom: 19
+    };
+
+    // request some basemap tiles and add to the map
+    var tiles = L.tileLayer(basemap_source, basemap_options).addTo(map);
+
+    solar.features.sort(function(a, b) {
+      return b.properties.capacity_mw - a.properties.capacity_mw;
+    });
+
+    // declare a variable to accept layer group
+    var solar_sites_layer
+
+    // empty array to populate solar sites, aka layers
+    var solar_sites = []
+
+    var initial_style = {
+      fillColor: '#eee92b',
+      color: '#f6ca09'
+      // other initial path options
+    }
+
+    var hover_style = {
+      color: '#f67309'
+      // other hover path options
+    }
+
+    for (var i = 0; i < solar.features.length; i++) {
+
+      var lat = solar.features[i].properties.LAT
+      var lng = solar.features[i].properties.LNG
+
+      if (lat != null && lng != null) {
+
+        var latlng = L.latLng(lat, lng)
+        var radius = getRadius(solar.features[i].properties.size_kw)
+        var marker = L.circleMarker(latlng, {
+          radius: radius
+        })
 
 
+        var popup = "<p><b> Solar Unit capacity: </b>" + solar.features[i].properties.size_kw.toLocaleString() + " kw</p>" +
+          "<p><b>Zipcode: </b>" + solar.features[i].properties.zipcode + "</p>" +
+          "<p> Unit cost per watt was " + solar.features[i].properties["cost_per_watt"] + " ($/watt)</p>" // build the popup
+        marker.bindPopup(popup);
 
 
+        marker.setStyle(initial_style);
 
-		// var attributeValue = "Colorado Solar_size_kw"
-		//
-		// var props = feature.properties
-		//
-		// console.log(solar.features);
+        solar_sites.push(marker)
+      }
 
-		// L.latlng(solar.feature.properties["LAT"], solar.feature.properties["LNG"]);
+      // create the final group of layers
+      solar_sites_layer = L.layerGroup(solar_sites)
+    }
 
-		//     var solarLayer = L.geoJson(solar, {
-		//       pointToLayer: function(feature, latlng) {
-		//         return L.circleMarker(latlng, commonStyles);
-		//       },
-		//       style: function(feature) {
-		//         return {
-		//           fillColor: '#1d66e7',
-		//           color: '#',
-		//           radius: getRadius(feature.properties["size_kw"])
-		//         }
-		//       },
-		//       onEachFeature: function(feature, layer) {
-		//         layer.on('mouseover', function() {
-		//           var popup = "<b>" + feature.properties["size_kw"] + "</b>" +
-		//           "<b>" + feature.properties["city"] + "</b>" +
-		//           "<b>" + feature.properties["install_type"] + "</b>"
-		//           layer.bindTooltip(popup);
-		//           layer.bindPopup(popup);
-		//         layer.on('mouseover', function() {
-		//   					layer.setStyle({
-		//   						fillColor: 'red'
-		//   					});
-		//   				});
-		//   				layer.on('mouseout', function() {
-		//   					layer.setStyle({
-		//   						fillColor: '#f4e242'
-		//   					})
-		//         })
-		//       }
-		//     ).addTo(map);
-		//   }
-		// })
+    // group of layers
+    solar_sites_layer.addTo(map)
 
-		function getRadius(area) {
-			var radius = Math.sqrt(area / Math.PI);
-			return radius * .7;
-		};
+    solar_sites_layer.eachLayer(function(layer) {
 
-		// Layers
-		//     $.getJSON("data/co_solar_coords.json", function(data) {
-		//
-		//       var dataLayer = L.geoJson(data, {
-		//         style: function(feature) {
-		//           return {
-		//             color: '#222',
-		//             weight: 1,
-		//             fillOpacity: 1,
-		//             fillColor: '#1f78b4'
-		//           };
-		//         }
-		//       }).addTo(map);
-		//
-		//       // call to new function here gets the data out of the
-		//       // callback function
-		//       drawMap(dataLayer);
-		//     });
-		//
-		//     function drawMap(dataLayer) {
-		//
-		//       var breaks = getClassBreaks(dataLayer);
-		//       dataLayer.eachLayer(function(layer) {
-		//
-		//    // var props = layer.features.properties;
-		//
-		//    layer.setStyle({
-		//      fillColor: getColor(layer.feature.properties["Colorado Solar_size_kw"], breaks)
-		//    });
-		//  });
-		//
-		//  drawLegend(breaks)
-		//     }
-		//
-		//       function getClassBreaks(dataLayer) {
-		//
-		//         // create empty Array for storing values
-		//         var values = [];
-		//
-		//         // loop through all the counties
-		//         dataLayer.eachLayer(function(layer) {
-		//           var props = layer.feature.properties;
-		//           var value = props["Colorado Solar_size_kw"]
-		//           values.push(value);
-		//         });
-		//
-		//         // determine similar clusters
-		//         var clusters = ss.ckmeans(values, 5);
-		//
-		//         // create an array of the lowest value within each cluster
-		//         var breaks = clusters.map(function(cluster) {
-		//           return [cluster[0], cluster.pop()];
-		//         });
-		//
-		//         return breaks; // return Array of class breaks
-		//        // end getClassBreaks function
-		// }
-		//
-		//       function getColor(d, breaks) {
-		//
-		//         if (d <= breaks[0][1]) {
-		//           return '#ffffd4';
-		//         } else if (d <= breaks[1][1]) {
-		//           return '#fed98e';
-		//         } else if (d <= breaks[2][1]) {
-		//           return '#fe9929';
-		//         } else if (d <= breaks[3][1]) {
-		//           return '##d95f0e'
-		//         } else if (d <= breaks[4][1]) {
-		//           return '#993404'
-		//         }
-		//       } // end getColor
-		//
-		//       function drawLegend(breaks) {
-		//
-		//         // create a new Leaflet control object, and position it top left
-		//         var legend = L.control({
-		//           position: 'topleft'
-		//         });
-		//
-		//         // when the legend is added to the map
-		//         legend.onAdd = function() {
-		//
-		//           // create a new HTML <div> element and give it a class name of "legend"
-		//           var div = L.DomUtil.create('div', 'legend');
-		//
-		//           // first append an <h3> tag to the div holding the current attribute
-		//           // and norm values (i.e., the mapped phenomena)
-		//           div.innerHTML = "<h3>" + attributeValue + "</h3>";
-		//
-		//           // for each of our breaks
-		//           for (var i = 0; i < breaks.length; i++) {
-		//             // determine the color associated with each break value,
-		//             // including the lower range value
-		//             var color = getColor(breaks[i][0], breaks);
-		//
-		//             // concatenate a <span> tag styled with the color and the range values
-		//             // of that class and include a label with the low and a high ends of that class range
-		//             div.innerHTML +=
-		//               '<span style="background:' + color + '"></span> ' +
-		//               '<label>' + (breaks[i][0] * 100).toLocaleString() + ' &mdash; ' +
-		//               (breaks[i][1] * 100).toLocaleString() + '</label>';
-		//           }
-		//
-		//           // return the populated div to be added to the map
-		//           return div;
-		//         };
-		//
-		//         // add the legend to the map
-		//         legend.addTo(map);
-		//       };
-	</script>
+      layer.on('mouseover', function() {
+        layer.setStyle(hover_style)
+      });
+
+      layer.on('mouseout', function() {
+        console.log(initial_style)
+        layer.setStyle(initial_style)
+      });
+    });
+
+    function getRadius(area) {
+      var radius = Math.sqrt(area / Math.PI);
+      return radius * .5;
+    };
+
+    $.when(solar_sites_layer).done(function() {
+
+      var stateLayer = $.getJSON("data/co_state.geojson", function(data) {
+
+        L.geoJson(data, {
+          style: function(feature) {
+            return {
+              // Let's experiment with these colors shortly
+              // color: '#222222', // Gray
+              color: '#444', // White
+              // Make line weight larger than the county outline
+              weight: 2,
+              fillOpacity: 0,
+              // This property allows us to interact with layers beneath
+              interactive: false
+            }
+          }
+        }).addTo(map);
+      })
+    });
+  </script>
 </body>
 
 </html>
