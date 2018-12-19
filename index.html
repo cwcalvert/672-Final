@@ -147,6 +147,10 @@
         width: 100%;
       }
     }
+
+    .leaflet-popup-content {
+      font-size: 1.5em;
+    }
   </style>
 </head>
 
@@ -255,9 +259,9 @@
         })
 
 
-        var popup = "<p><b> Solar Unit capacity: </b>" + solar.features[i].properties.size_kw.toLocaleString() + " kw</p>" +
-          "<p><b>Zipcode: </b>" + solar.features[i].properties.zipcode + "</p>" +
-          "<p> Unit cost per watt was " + solar.features[i].properties["cost_per_watt"] + " ($/watt)</p>" // build the popup
+        var popup = "<b> Solar Unit capacity: </b>" + solar.features[i].properties.size_kw.toLocaleString() + " kw<br>" +
+          "<b>Zipcode: </b>" + solar.features[i].properties.zipcode + "<br>" +
+          "Unit cost per watt was " + solar.features[i].properties["cost_per_watt"] + " ($/watt)" // build the popup
         marker.bindPopup(popup);
 
 
