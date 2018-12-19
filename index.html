@@ -275,6 +275,8 @@
 
     solar_sites_layer.eachLayer(function(layer) {
 
+      if (!L.Browser.mobile) {
+
       layer.on('mouseover', function() {
         layer.setStyle(hover_style)
       });
@@ -283,6 +285,7 @@
         console.log(initial_style)
         layer.setStyle(initial_style)
       });
+    }
     });
 
     function getRadius(area) {
