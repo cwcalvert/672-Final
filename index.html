@@ -258,10 +258,16 @@
           radius: radius
         })
 
-
+        if (solar.features[i].properties["cost_per_watt"] == null) {
+          var cost_per_watt = "Unit cost per watt is N/A"
+        } else {
+          var cost_per_watt = "Unit cost per watt was " + solar.features[i].properties["cost_per_watt"] + " ($/watt)" 
+        }
+  
         var popup = "<b> Solar Unit capacity: </b>" + solar.features[i].properties.size_kw.toLocaleString() + " kw<br>" +
-          "<b>Zipcode: </b>" + solar.features[i].properties.zipcode + "<br>" +
-          "Unit cost per watt was " + solar.features[i].properties["cost_per_watt"] + " ($/watt)" // build the popup
+          "<b>Zipcode: </b>" + solar.features[i].properties.zipcode + "<br>" + cost_per_watt
+           // build the popup
+        
         marker.bindPopup(popup);
 
 
